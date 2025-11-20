@@ -1,44 +1,145 @@
----
-// we can import fonts here, after installing them via Fontsource
-// see https://fontsource.org/docs/installation for instructions
-import "@fontsource/karla";
----
-
 <style is:global>
-  /* We can use this style tag to set up colors, fonts, etc. */
+  @font-face {
+      font-family: 'ArcadeClassic';
+      src: url('/fonts/ARCADECLASSIC.TTF') format('truetype');
+  }
+
   :root {
-    --color-background: rgb(24, 0, 24);
-    --color-text: rgb(240, 240, 240);
-    --color-accent: rgb(0, 200, 255);
-    --color-focus-ring: rgb(255, 0, 255);
+    --color-bg-gradient-start: #1A0D3A;
+    --color-bg-gradient-end: #4823A0;
+    --color-bg-single: #A580F0;
+    --color-fg-primary: #FFFFFF;
+    --color-accent-border: #4CAF50;
+    --color-bg-box: #24005C;
+    
+    --spacing-unit: 8px;
+    --pixel-border: 4px;
 
-    --font-body: "Karla", sans-serif;
-    --font-headings: "Karla", sans-serif;
-
-    font-size: 18px;
-
-    /* These sizes are used by the Container component to set up the page container */
-    --size-page-width: 800px;
-    --size-page-padding: 1rem;
+    font-family: 'ArcadeClassic', monospace;
   }
 
-  /* We can also apply these colors as a default */
+  .dark-mode {
+    --color-bg-gradient-start: #000000;
+    --color-bg-gradient-end: #000000;
+    --color-bg-single: #000000;
+    
+    --color-neon: #33FF33;
+    --color-neon-shadow: #00A300;
+    
+    --color-fg-primary: var(--color-neon);
+    --color-accent-border: var(--color-neon);
+    --color-bg-box: #08000F;
+  }
+
   body {
-    background-color: var(--color-background);
-    color: var(--color-text);
-    font-family: var(--font-body);
+    background: linear-gradient(180deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
+    color: var(--color-fg-primary);
+    transition: background 0.5s ease-in-out, color 0.5s;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
   }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: var(--color-accent);
+  
+  /*   */
+  body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+          0deg, 
+          rgba(0, 0, 0, 0.15) 0, 
+          rgba(0, 0, 0, 0.15) 1px, 
+          transparent 1px, 
+          transparent 2px
+      );
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.5;
   }
 
-  /* default focus ring styles */
-  *:focus-visible {
-    outline: 3px solid var(--color-focus-ring);
+  @keyframes twinkle {
+    0%, 100% { 
+      opacity: 0.2;
+    }
+    50% { 
+      opacity: 1;
+      text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  .pixel-page {
+    position: relative;
+    overflow: hidden;
+    animation: shake 0.5s infinite steps(2, end); /*    */
+  }
+
+  .pixel-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    
+    background:
+      radial-gradient(circle at 10% 20%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 70% 85%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 45% 50%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 20% 75%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 80% 30%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 55% 15%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 40% 95%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 5% 10%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 75% 25%, #fff 2px, transparent 2px),
+      
+      radial-gradient(circle at 90% 90%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 35% 5%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 50% 80%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 15% 40%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 85% 55%, #fff 3px, transparent 3px);
+    
+    background-size: 100% 100%;
+    pointer-events: none;
+    will-change: opacity, text-shadow;
+    animation: twinkle 5s infinite ease-in-out; 
+  }
+
+  .pixel-page::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    will-change: opacity, text-shadow;
+    
+    background:
+      radial-gradient(circle at 30% 60%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 90% 40%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 65% 70%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 40% 95%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 5% 10%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 75% 25%, #fff 2px, transparent 2px),
+      
+      radial-gradient(circle at 10% 90%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 90% 10%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 50% 30%, #fff 3px, transparent 3px),
+      radial-gradient(circle at 70% 5%, #fff 2px, transparent 2px),
+      radial-gradient(circle at 25% 80%, #fff 3px, transparent 3px);
+
+    background-size: 100% 100%;
+    
+    animation: twinkle 4s infinite ease-in-out 1.5s; 
+  }
+
+  .dark-mode .name-box .pixel-text {
+    text-shadow: none !important;
   }
 </style>

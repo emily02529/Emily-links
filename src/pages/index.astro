@@ -1,17 +1,267 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import SampleComponent from "@components/SampleComponent.astro";
-import Container from "@components/Container.astro";
-import AstroLogo from "@assets/images/astro-logo-light-gradient.png";
-import { Content as SampleMarkdown } from "@content/sample-markdown.md";
-import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import Link from "../components/Link.astro";
 ---
 
-<Layout title="Astro Starter">
-  <Container>
-    <Image src={AstroLogo} alt="" />
-    <h1>a simple Astro Starter Kit</h1>
-    <SampleComponent text="This is a sample component!" />
-    <SampleMarkdown />
-  </Container>
+<Layout title="EMILY AHN - LINKS">
+  <div class="pixel-page">
+    
+    <div class="avatar-container">
+      <img src="/assets/avatar.png" alt="Emily Ahn Avatar" class="pixel-avatar" />
+    </div>
+
+    <div class="name-box">
+      <span class="pixel-dot">•</span> 
+      <h1 class="pixel-text">EMILY AHN</h1>
+      <span class="pixel-dot">•</span> 
+    </div>
+
+    <div class="link-list">
+      <Link href="#" label="PORTFOLIO" />
+      <Link href="https://instagram.com/emilyahns" label="INSTAGRAM" />
+      <Link href="https://facebook.com/" label="FACEBOOK" />
+      <Link href="#" label="RANDOM" />
+    </div>
+
+    <button id="mode-toggle" class="mode-toggle-btn" data-astro-transition>
+      🌗
+    </button>
+    
+    <div class="rocket-container">
+      <img src="/assets/rocket.png" alt="Rocket Ship" class="rocket" />
+      <div class="projectile-trail trail-1"></div>
+      <div class="projectile-trail trail-2"></div>
+    </div>
+
+  </div>
 </Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const rocket = document.querySelector('.rocket-container');
+
+      window.addEventListener('mousemove',(e)=>{
+
+        rocket.style['transform'] = `translateX(${e.clientX - 25}px)`;
+        
+      })
+
+
+    const toggleButton = document.getElementById('mode-toggle');
+    
+    toggleButton.addEventListener('click', () => {
+      const isDarkMode = document.documentElement.classList.toggle('dark-mode');
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    });
+  });
+</script>
+
+<style>
+  @keyframes processing-fill {
+      0% { transform: scaleX(0); }
+      100% { transform: scaleX(1); }
+  }
+  
+  @keyframes rocket-move {
+      0% { transform: translateX(0) translateY(-50px); }
+      50% { transform: translateX(100vw) translateY(-50px); }
+      100% { transform: translateX(0) translateY(-50px); }
+  }
+
+  @keyframes shoot-projectile {
+      0% { transform: translateY(0) scale(1.5); opacity: 1; }
+      100% { transform: translateY(-1080px) scale(0.7); opacity: 1; }
+  }
+  
+  .pixel-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: calc(var(--spacing-unit) * 4) var(--spacing-unit);
+    text-align: center;
+    position: relative;
+  }
+
+  .avatar-container {
+    padding: var(--spacing-unit);
+    border: var(--pixel-border) solid var(--color-accent-border);
+    box-shadow: 
+      var(--pixel-border) var(--pixel-border) 0 0 var(--color-bg-box),
+      calc(var(--pixel-border) * -1) calc(var(--pixel-border) * -1) 0 0 var(--color-bg-box);
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    position: relative;
+    z-index: 10;
+  }
+  .pixel-avatar {
+    width: 96px;
+    height: 96px;
+    display: block;
+    image-rendering: pixelated;
+  }
+
+  .name-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg-box);
+    border: var(--pixel-border) solid var(--color-accent-border);
+    padding: var(--spacing-unit) calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 6);
+    text-shadow: 2px 2px var(--color-accent-border);
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+    cursor: default;
+  }
+  
+  .name-box::before {
+      content: '';
+      position: absolute;
+      top: 0; 
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #FF8800;
+      z-index: -1;
+      transform-origin: left;
+      transform: scaleX(0);
+      opacity: 0;
+      transition: opacity 0.3s;
+  }
+  .name-box:hover::before {
+      opacity: 0.8;
+      animation: processing-fill 1s infinite alternate; 
+  }
+  .name-box:not(:hover)::before {
+      animation: processing-fill 0.1s reverse; 
+      animation-play-state: paused;
+      opacity: 0;
+  }
+
+  .dark-mode .name-box:hover::before {
+      background-color: #FF55AA;
+      opacity: 0.5;
+  }
+
+  .dark-mode .name-box {
+      text-shadow: none; 
+      border-color: var(--color-neon);
+  }
+
+  .dark-mode .name-box .pixel-text {
+    font-color: black;
+    text-shadow: none !important;
+  }
+
+  .pixel-dot {
+    font-size: 20px;
+    line-height: 1;
+    margin: 0 var(--spacing-unit);
+    color: var(--color-accent-border);
+  }
+  
+  .dark-mode .pixel-dot {
+    color: var(--color-neon);
+    text-shadow: 0 0 2px var(--color-neon-shadow);
+  }
+
+  .link-list {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 2);
+    position: relative;
+    z-index: 10;
+  }
+
+  .mode-toggle-btn {
+    margin-top: calc(var(--spacing-unit) * 6);
+    padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
+    background: var(--color-bg-box);
+    color: var(--color-fg-primary);
+    border: 2px solid var(--color-accent-border);
+    cursor: pointer;
+    font-family: 'ArcadeClassic', monospace;
+    font-size: 16px;
+    position: relative;
+    z-index: 10;
+    transition: background-color 0.2s, box-shadow 0.2s, color 0.2s, border-color 0.2s;
+  }
+  
+  .mode-toggle-btn:hover {
+      background-color: var(--color-accent-border);
+      color: var(--color-bg-box);
+  }
+
+  .dark-mode .mode-toggle-btn {
+    color: var(--color-neon);
+    border-color: var(--color-neon);
+    box-shadow: 
+        0 0 8px var(--color-neon),
+        0 0 15px var(--color-neon-shadow);
+  }
+  
+  .dark-mode .mode-toggle-btn:hover {
+      background-color: rgba(51, 255, 51, 0.2);
+      color: #fff;
+      border-color: #fff;
+    box-shadow: 
+        0 0 15px var(--color-neon),
+        0 0 30px var(--color-neon-shadow);
+  }
+  
+  .rocket-container {
+      position: fixed;
+      bottom: var(--spacing-unit);
+      /* top:0; */
+      left: 0;
+      
+      /* animation: rocket-move 10s infinite ease-in-out; */
+      
+      /* width: 100%; */
+      /* max-width: 320px;  */
+      width:50px;
+      height: 50px;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+  }
+
+  .rocket {
+      position: absolute;
+      bottom: 0;
+      width: 48px; 
+      height: 48px;
+      image-rendering: pixelated;
+      animation: none;
+  }
+  
+  .dark-mode .rocket {
+      filter: drop-shadow(0 0 5px var(--color-neon-shadow));
+  }
+
+  .projectile-trail {
+      position: absolute;
+      width: 8px; 
+      height: 8px; 
+      background-color: var(--color-accent-border);
+      border-radius: 50%;
+      bottom: 40px; 
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      animation: shoot-projectile 1.5s infinite linear;
+      z-index: 19;
+  }
+
+  .trail-1 { animation-delay: 0s; }
+  .trail-2 { animation-delay: 0.75s; }
+  
+  .dark-mode .projectile-trail {
+      background-color: var(--color-neon);
+      box-shadow: 0 0 5px var(--color-neon);
+  }
+</style>
