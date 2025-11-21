@@ -10,6 +10,7 @@
     --color-bg-single: #A580F0;
     --color-fg-primary: #FFFFFF;
     --color-accent-border: #4CAF50;
+    --color-fg-primary-rgb: 255, 255, 255;
     --color-bg-box: #24005C;
     
     --spacing-unit: 8px;
@@ -25,10 +26,14 @@
     
     --color-neon: #33FF33;
     --color-neon-shadow: #00A300;
+    --color-neon-rgb: 51, 255, 51;
     
     --color-fg-primary: var(--color-neon);
+    --color-fg-primary-rgb: var(--color-neon-rgb);
     --color-accent-border: var(--color-neon);
     --color-bg-box: #08000F;
+    
+    --color-bg-inner: #0b0624;
   }
 
   body {
@@ -40,8 +45,12 @@
     min-height: 100vh;
     position: relative;
   }
+
+  /*    body      */
+  .dark-mode body {
+    background: var(--color-bg-single);
+  }
   
-  /*   */
   body::before {
       content: '';
       position: fixed;
@@ -74,7 +83,7 @@
   .pixel-page {
     position: relative;
     overflow: hidden;
-    animation: shake 0.5s infinite steps(2, end); /*    */
+    animation: shake 0.5s infinite steps(2, end);
   }
 
   .pixel-page::before {
@@ -141,5 +150,10 @@
 
   .dark-mode .name-box .pixel-text {
     text-shadow: none !important;
+  }
+
+
+  .dark-mode .pixel-page {
+      background-color: var(--color-bg-inner) !important;
   }
 </style>

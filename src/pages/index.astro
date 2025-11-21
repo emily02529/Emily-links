@@ -4,51 +4,59 @@ import Link from "../components/Link.astro";
 ---
 
 <Layout title="EMILY AHN - LINKS">
-  <div class="pixel-page">
-    
-    <div class="avatar-container">
-      <img src="/assets/avatar.png" alt="Emily Ahn Avatar" class="pixel-avatar" />
-    </div>
+  <div class="screen-frame"> 
+    <div class="pixel-page">
+      
+      <div class="maincontainer avatar-flip-wrapper">
+        <div class="thecard" id="avatar-card">
+          
+          <div class="thefront avatar-box">
+            <img src="/assets/avatar.png" alt="Emily Ahn Avatar" class="pixel-avatar" />
+          </div>
 
-    <div class="name-box">
-      <span class="pixel-dot">•</span> 
-      <h1 class="pixel-text">EMILY AHN</h1>
-      <span class="pixel-dot">•</span> 
-    </div>
+          <div class="theback avatar-box">
+            <img src="/assets/avatar-2.png" alt="Unicorn" class="pixel-avatar back-image" />
+          </div>
+          
+        </div>
+      </div>
 
-    <div class="link-list">
-      <Link href="#" label="PORTFOLIO" />
-      <Link href="https://instagram.com/emilyahns" label="INSTAGRAM" />
-      <Link href="https://facebook.com/" label="FACEBOOK" />
-      <Link href="#" label="RANDOM" />
-    </div>
+      <div class="name-box">
+        <span class="pixel-dot"></span> 
+        <h1 class="pixel-text">EMILY AHN</h1>
+        <span class="pixel-dot"></span> 
+      </div>
 
-    <button id="mode-toggle" class="mode-toggle-btn" data-astro-transition>
-      🌗
-    </button>
-    
-    <div class="rocket-container">
-      <img src="/assets/rocket.png" alt="Rocket Ship" class="rocket" />
-      <div class="projectile-trail trail-1"></div>
-      <div class="projectile-trail trail-2"></div>
-    </div>
+      <div class="link-list">
+        <Link href="#" label="PORTFOLIO" />
+        <Link href="https://instagram.com/emilyahns" label="INSTAGRAM" />
+        <Link href="https://facebook.com/" label="FACEBOOK" />
+        <Link href="#" label="RANDOM" />
+      </div>
 
-  </div>
+      <button id="mode-toggle" class="mode-toggle-btn" data-astro-transition></button>
+      
+      <div class="rocket-container">
+        <img src="/assets/rocket.png" alt="Rocket Ship" class="rocket" />
+        <div class="projectile-trail trail-1"></div>
+        <div class="projectile-trail trail-2"></div>
+      </div>
+
+    </div>
+  </div> 
 </Layout>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const rocket = document.querySelector('.rocket-container');
-
-      window.addEventListener('mousemove',(e)=>{
-
-        rocket.style['transform'] = `translateX(${e.clientX - 25}px)`;
-        
-      })
-
-
     const toggleButton = document.getElementById('mode-toggle');
-    
+
+    if (rocket) {
+      window.addEventListener('mousemove', (e) => {
+        rocket.style.transform = `translateX(${e.clientX - 25}px)`;
+      });
+    }
+
     toggleButton.addEventListener('click', () => {
       const isDarkMode = document.documentElement.classList.toggle('dark-mode');
       localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
@@ -58,48 +66,142 @@ import Link from "../components/Link.astro";
 
 <style>
   @keyframes processing-fill {
-      0% { transform: scaleX(0); }
-      100% { transform: scaleX(1); }
+    0% { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
   }
   
   @keyframes rocket-move {
-      0% { transform: translateX(0) translateY(-50px); }
-      50% { transform: translateX(100vw) translateY(-50px); }
-      100% { transform: translateX(0) translateY(-50px); }
+    0% { transform: translateX(0) translateY(-50px); }
+    50% { transform: translateX(100vw) translateY(-50px); }
+    100% { transform: translateX(0) translateY(-50px); }
   }
 
   @keyframes shoot-projectile {
-      0% { transform: translateY(0) scale(1.5); opacity: 1; }
-      100% { transform: translateY(-1080px) scale(0.7); opacity: 1; }
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-1080px) scale(1); opacity: 0.5; }
+  }
+
+  body {
+    background-color: #1a1a2e;
+  }
+
+  .dark-mode body {
+    background-color: #0d0d1a;
+  }
+  
+  .screen-frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
   }
   
   .pixel-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    padding: calc(var(--spacing-unit) * 4) var(--spacing-unit);
     text-align: center;
     position: relative;
+    overflow: hidden;
+
+    width: 90vw; 
+    max-width: 450px; 
+    
+    border-radius: calc(var(--pixel-border) * 2); 
+    border: calc(var(--pixel-border) * 2) solid var(--color-accent-border);
+    box-shadow: 0 0 0 4px var(--color-bg-box), 
+                0 0 20px 5px rgba(0, 255, 255, 0.3);
+
+    padding: calc(var(--spacing-unit) * 6) calc(var(--spacing-unit) * 4);
+    filter: brightness(1.1) contrast(1.1);
+
+    background-color: #3f004f;
   }
 
-  .avatar-container {
+  .dark-mode .pixel-page {
+    box-shadow: 0 0 0 4px var(--color-bg-box), 
+                0 0 25px 8px var(--color-neon-shadow);
+    background-color: var(--color-bg-inner) !important;
+  }
+
+  @media (min-width: 768px) {
+    .pixel-page {
+      max-width: 650px; 
+      padding: calc(var(--spacing-unit) * 8) calc(var(--spacing-unit) * 6);
+    }
+  }
+
+  .avatar-flip-wrapper {
+    width: 128px; 
+    height: 128px;
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    position: relative;
+    perspective: 1000px;
+  }
+
+  /*     */
+  .thecard {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: all 0.8s ease;
+    border-radius: 10px;
+  }
+
+  .thecard:hover {
+    transform: rotateY(180deg);
+  }
+
+  .thefront,
+  .theback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
     padding: var(--spacing-unit);
+    border-radius: 10px;
     border: var(--pixel-border) solid var(--color-accent-border);
     box-shadow: 
       var(--pixel-border) var(--pixel-border) 0 0 var(--color-bg-box),
       calc(var(--pixel-border) * -1) calc(var(--pixel-border) * -1) 0 0 var(--color-bg-box);
-    margin-bottom: calc(var(--spacing-unit) * 4);
-    position: relative;
-    z-index: 10;
+    background-color: var(--color-bg-box);
+    transition: filter 0.3s ease-out;
   }
+
+  .theback {
+    transform: rotateY(180deg);
+  }
+  
   .pixel-avatar {
-    width: 96px;
-    height: 96px;
-    display: block;
+    width: 100%; 
+    height: 100%;
+    object-fit: contain;
     image-rendering: pixelated;
   }
 
+  .dark-mode .thefront,
+  .dark-mode .theback {
+    border-color: var(--color-neon);
+    box-shadow: 
+      var(--pixel-border) var(--pixel-border) 0 0 var(--color-bg-box),
+      calc(var(--pixel-border) * -1) calc(var(--pixel-border) * -1) 0 0 var(--color-bg-box),
+      0 0 10px var(--color-neon);
+    background-color: var(--color-bg-box);
+  }
+  
   .name-box {
     display: flex;
     align-items: center;
@@ -116,42 +218,39 @@ import Link from "../components/Link.astro";
   }
   
   .name-box::before {
-      content: '';
-      position: absolute;
-      top: 0; 
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #FF8800;
-      z-index: -1;
-      transform-origin: left;
-      transform: scaleX(0);
-      opacity: 0;
-      transition: opacity 0.3s;
+    content: '';
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FF8800;
+    z-index: -1;
+    transform-origin: left;
+    transform: scaleX(0);
+    opacity: 0;
+    transition: opacity 0.3s;
   }
+
   .name-box:hover::before {
-      opacity: 0.8;
-      animation: processing-fill 1s infinite alternate; 
+    opacity: 0.8;
+    animation: processing-fill 1s infinite alternate; 
   }
+
   .name-box:not(:hover)::before {
-      animation: processing-fill 0.1s reverse; 
-      animation-play-state: paused;
-      opacity: 0;
+    animation: processing-fill 0.1s reverse; 
+    animation-play-state: paused;
+    opacity: 0;
   }
 
   .dark-mode .name-box:hover::before {
-      background-color: #FF55AA;
-      opacity: 0.5;
+    background-color: #FF55AA;
+    opacity: 0.5;
   }
 
   .dark-mode .name-box {
-      text-shadow: none; 
-      border-color: var(--color-neon);
-  }
-
-  .dark-mode .name-box .pixel-text {
-    font-color: black;
-    text-shadow: none !important;
+    text-shadow: none; 
+    border-color: var(--color-neon);
   }
 
   .pixel-dot {
@@ -168,7 +267,6 @@ import Link from "../components/Link.astro";
 
   .link-list {
     width: 100%;
-    max-width: 320px;
     display: flex;
     flex-direction: column;
     gap: calc(var(--spacing-unit) * 2);
@@ -191,77 +289,71 @@ import Link from "../components/Link.astro";
   }
   
   .mode-toggle-btn:hover {
-      background-color: var(--color-accent-border);
-      color: var(--color-bg-box);
+    background-color: var(--color-accent-border);
+    color: var(--color-bg-box);
   }
 
   .dark-mode .mode-toggle-btn {
     color: var(--color-neon);
     border-color: var(--color-neon);
     box-shadow: 
-        0 0 8px var(--color-neon),
-        0 0 15px var(--color-neon-shadow);
+      0 0 8px var(--color-neon),
+      0 0 15px var(--color-neon-shadow);
   }
   
   .dark-mode .mode-toggle-btn:hover {
-      background-color: rgba(51, 255, 51, 0.2);
-      color: #fff;
-      border-color: #fff;
+    background-color: rgba(51, 255, 51, 0.2);
+    color: #fff;
+    border-color: #fff;
     box-shadow: 
-        0 0 15px var(--color-neon),
-        0 0 30px var(--color-neon-shadow);
+      0 0 15px var(--color-neon),
+      0 0 30px var(--color-neon-shadow);
   }
   
   .rocket-container {
-      position: fixed;
-      bottom: var(--spacing-unit);
-      /* top:0; */
-      left: 0;
-      
-      /* animation: rocket-move 10s infinite ease-in-out; */
-      
-      /* width: 100%; */
-      /* max-width: 320px;  */
-      width:50px;
-      height: 50px;
-      z-index: 20;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
+    position: fixed;
+    bottom: var(--spacing-unit);
+    left: 0;
+    width: 50px;
+    height: 50px;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
   }
 
   .rocket {
-      position: absolute;
-      bottom: 0;
-      width: 48px; 
-      height: 48px;
-      image-rendering: pixelated;
-      animation: none;
+    position: absolute;
+    bottom: 0;
+    width: 48px; 
+    height: 48px;
+    image-rendering: pixelated;
   }
   
   .dark-mode .rocket {
-      filter: drop-shadow(0 0 5px var(--color-neon-shadow));
+    filter: drop-shadow(0 0 5px var(--color-neon-shadow));
   }
 
   .projectile-trail {
-      position: absolute;
-      width: 8px; 
-      height: 8px; 
-      background-color: var(--color-accent-border);
-      border-radius: 50%;
-      bottom: 40px; 
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      animation: shoot-projectile 1.5s infinite linear;
-      z-index: 19;
+    position: absolute;
+    width: 8px; 
+    height: 8px; 
+    background-color: var(--color-accent-border);
+    border-radius: 50%;
+    bottom: 40px; 
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    animation: shoot-projectile 1.5s infinite linear;
+    z-index: 19;
+    box-shadow: 0 0 8px 2px var(--color-accent-border);
   }
 
   .trail-1 { animation-delay: 0s; }
   .trail-2 { animation-delay: 0.75s; }
   
   .dark-mode .projectile-trail {
-      background-color: var(--color-neon);
-      box-shadow: 0 0 5px var(--color-neon);
+    background-color: var(--color-neon);
+    box-shadow: 0 0 5px var(--color-neon) 0 0 15px 5px var(--color-neon-shadow);
   }
 </style>
