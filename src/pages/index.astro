@@ -148,12 +148,19 @@ import Link from "../components/Link.astro";
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transition: all 0.8s ease;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 0.8s ease;
+    transition: transform 0.8s ease;
     border-radius: 10px;
   }
 
-  .thecard:hover {
-    transform: rotateY(180deg);
+  /* Flip on hover, focus (accessibility), or when .flipped is added via JS */
+  .avatar-flip-wrapper:hover .thecard,
+  .avatar-flip-wrapper:focus-within .thecard,
+  .thecard:hover,
+  .thecard.flipped {
+    -webkit-transform: rotateY(180deg) scale(1.05);
+    transform: rotateY(180deg) scale(1.05);
   }
 
   .thefront,
@@ -183,6 +190,14 @@ import Link from "../components/Link.astro";
 
   .theback {
     transform: rotateY(180deg);
+  }
+  
+  /* small translateZ helps avoid z-fighting and ensures proper face stacking */
+  .thefront { transform: rotateY(0deg) translateZ(0.1px); }
+  .theback { transform: rotateY(180deg) translateZ(0); }
+  .thefront, .theback {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
   
   .pixel-avatar {

@@ -18,11 +18,14 @@ const { title = 'Theme' } = Astro.props;
   <title>{title}</title>
   <CSSReset />
   <Theme /> <script is:inline>
+    // Only apply dark mode if the user explicitly saved that preference.
+    // Do not auto-apply based on OS preference so the site opens in the
+    // default theme unless the user previously selected dark.
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    if (savedTheme === 'dark') {
       document.documentElement.classList.add('dark-mode');
+    } else if (savedTheme === 'light') {
+      document.documentElement.classList.remove('dark-mode');
     }
   </script>
 </head>
